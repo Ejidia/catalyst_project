@@ -7,11 +7,22 @@ For more information on this file, see
 https://docs.djangoproject.com/en/5.2/topics/settings/
 
 For the full list of settings and their values, see
-https://docs.djangoproject.com/en/5.2/ref/settings/
-"""
+https://docs.djangoproject.com/en/5.2/ref/settings/"""
 
-from pathlib import Path
 import os
+import sys
+from pathlib import Path
+
+# Add your project folder to the Python path
+path = '/home/Ejidia/kgl'
+if path not in sys.path:
+    sys.path.append(path)
+
+# Set the Django settings module
+os.environ['DJANGO_SETTINGS_MODULE'] = 'kgl.settings'
+
+from django.core.wsgi import get_wsgi_application
+application = get_wsgi_application()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -74,7 +85,7 @@ TEMPLATES = [
 ]
 
 
-WSGI_APPLICATION = 'kgl.wsgi.application'
+
 
 
 # Database
