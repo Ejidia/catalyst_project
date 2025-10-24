@@ -1,13 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.urls import reverse
+from django.template.loader import get_template
 from django.db.models import Sum
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout as django_logout
 from django.contrib.auth.forms import AuthenticationForm
-
 from .models import *
 from .forms import *
+from django.core.mail import EmailMultiAlternatives
 from .filters import StockFilter
 
 
@@ -279,6 +280,5 @@ def final_receipt(request, receipt_id):
 
     receipt = get_object_or_404(Receipt, id=receipt_id)
     return render(request, 'final_receipt.html', {'receipt': receipt})
-
 
 

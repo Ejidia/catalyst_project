@@ -34,5 +34,7 @@ urlpatterns = [
     path('manager_dashboard/', views.manager_dashboard, name='manager_dashboard'),
 
     # Sales Agent dashboard (users in "SalesAgent" group)
-    path('salesagent_dashboard/', views.salesagent_dashboard, name='salesagent_dashboard'), 
+    path('salesagent_dashboard/', views.salesagent_dashboard, name='salesagent_dashboard'),
+    path('send_verification_code/', views.SendVerificationCodeAPI.as_view(), name='send_verification_code'),
+    path('verify_code/', views.VerifyCodeAPI.as_view(), name='verify_code'), 
 ]

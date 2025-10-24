@@ -1,5 +1,7 @@
 from django.db import models
 from datetime import datetime
+from django.utils import timezone
+import random
 from django.contrib.auth.models import AbstractUser,Group,Permission
 
 
@@ -70,7 +72,7 @@ class Sales(models.Model):
 #defining a method
 
     def get_total(self):
-        # Ensure both quantity and unit_price are valid
+        # Ensure both quantity and unit_price are valid#
         if self.quantity is None or self.item.unit_price is None:
             return 0  # Return 0 if either value is None
         total = self.quantity * self.item.unit_price
@@ -110,8 +112,7 @@ class Deffered_payments(models.Model):
         return self.customer_name
     
 
-    from django.db import models
-from django.utils import timezone
+ 
 
 class Receipt(models.Model):
     issued_to = models.CharField(max_length=100)  # Customer name
@@ -129,6 +130,28 @@ class Receipt(models.Model):
 
     def __str__(self):
         return f"Receipt for {self.issued_to} on {self.date.strftime('%Y-%m-%d')}"
+    
+
+
+
+class EmailVerificationCode(models.Model):
+    email = models.EmailField()
+    code = models.CharField(max_length=6,null=True,blank=True)
+
+
+    def __str__(self):
+        return f'{self.code} is generated for {self.email} '
+
+    def save(self,*args,**kwargs):
+        numbers = [i for i in range(10)]
+        code =[]
+
+        for _ in range(6):
+            num = random.choice(numbers)
+            code.append(num)
+        code_str = ''.join(str(i) for i in code)
+        self.code = code_str
+        return super().save(*args,**kwargs)
 
 
     
