@@ -8,7 +8,6 @@ from django.contrib.auth import authenticate, login, logout as django_logout
 from django.contrib.auth.forms import AuthenticationForm
 from .models import *
 from .forms import *
-from django.core.mail import EmailMultiAlternatives
 from .filters import StockFilter
 
 
@@ -221,7 +220,7 @@ def signup(request):
         form = UserCreation(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/Login')
+            return redirect('/login')
     else:
         form = UserCreation()
     return render(request, 'ebook/signup.html', {'form': form})
@@ -279,6 +278,6 @@ def final_receipt(request, receipt_id):
         return HttpResponseForbidden("You are not authorized to view this receipt.")
 
     receipt = get_object_or_404(Receipt, id=receipt_id)
-    return render(request, 'final_receipt.html', {'receipt': receipt})
+    return render(request, 'ebook/receipt_detail.html', {'receipt': receipt})
 
 

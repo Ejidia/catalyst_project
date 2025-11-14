@@ -25,13 +25,10 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('home/', views.home, name='home'),
 
-    path('accounts/login/',auth_views.LoginView.as_view(template_name='ebook/login.html'),name='login'),
-   
+    path('accounts/login/', auth_views.LoginView.as_view(template_name='ebook/login.html'), name='login'),
     path('register/', views.register, name='register'),
-    #you tell django to give me the functionality for authentication "functionality to log in".this is the Login for the sales agent.
-    path('', auth_views.LoginView.as_view(template_name='ebook/login.html'), name = 'login'),
     path('Login/', views.Login, name='Login'),
-    path('logout/', auth_views.LoginView.as_view(template_name='ebook/logout.html'), name = 'logout'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
     path('home/<int:product_id>/',views.product_detail, name = 'product_detail'),
     path('product/<int:product_id>/edit/', views.edit_detail, name='edit_detail'),
 
@@ -43,7 +40,7 @@ urlpatterns = [
     path('deffered_payments/', views.deffered_payments, name='deffered_payments'),
     path('deffered_payments_list/', views.deffered_payments_list, name='deffered_payments_list'),
     path('add_product/', views.add_product, name='add_product'),
-    path('receipt_detail/<int:receipt_id>/', views.receipt_detail, name='receipt_detail'),
+    # remove duplicate receipt_detail route
     path('record_sales/', views.record_sales, name='record_sales'),
     path('add_to_stock/<str:pk>/', views.add_to_stock, name='add_to_stock'),
     path('signup/', views.signup, name='signup'),
@@ -55,9 +52,9 @@ urlpatterns = [
     path('manager_dashboard/', views.manager_dashboard, name='manager_dashboard'),
 
     # Sales Agent dashboard (users in "SalesAgent" group)
-    path('salesagent_dashboard/', views.salesagent_dashboard, name='salesagent_dashboard'), 
+    path('salesagent_dashboard/', views.salesagent_dashboard, name='salesagent_dashboard'),
 
-    path('receipt/<int:receipt_id>/', views.final_receipt, name='final_receipt'),
+    path('receipt/final/<int:receipt_id>/', views.final_receipt, name='final_receipt'),
 
 ]
 

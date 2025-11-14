@@ -13,17 +13,6 @@ import os
 import sys
 from pathlib import Path
 
-# Add your project folder to the Python path
-path = '/home/Ejidia/kgl'
-if path not in sys.path:
-    sys.path.append(path)
-
-# Set the Django settings module
-os.environ['DJANGO_SETTINGS_MODULE'] = 'kgl.settings'
-
-from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -32,11 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = 'django-insecure-your-secret-key-change-in-production'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['Ejidia.pythonanywhere.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -48,10 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'karibu',
     'crispy_forms',
     'crispy_bootstrap5',
     'django_filters',
+    'karibu.apps.KaribuConfig',
 ]
 
 

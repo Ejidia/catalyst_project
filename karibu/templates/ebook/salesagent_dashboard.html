@@ -2,83 +2,16 @@
 {% load static %}
 
 {% block content %}
-<style>
-  body {
-    background-color: #e8ecf1;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-
-  .hover-card {
-    border-radius: 12px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    color: #ffffff;
-  }
-
-  .hover-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
-  }
-
-  .card-theme-green {
-    background: linear-gradient(135deg, #006400, #3399ff);
-  }
-
-  .card-theme-blue {
-    background: linear-gradient(135deg, #006400, #3399ff);
-  }
-
-  .card-body {
-    padding: 1.5rem;
-  }
-
-  .card-icon {
-    font-size: 3rem;
-    margin-bottom: 15px;
-    color: #fff;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
-  }
-
-  .card-title {
-    font-weight: 700;
-    font-size: 1.25rem;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-  }
-
-  .card-text {
-    font-size: 0.95rem;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-  }
-
-  a.text-decoration-none {
-    text-decoration: none;
-  }
-
-  a.text-decoration-none:hover {
-    text-decoration: none;
-  }
-
-  .container {
-    padding-top: 40px;
-    padding-bottom: 40px;
-  }
-
-  .row > div {
-    padding: 15px;
-  }
-</style>
-
-<!-- Sales Agent Dashboard -->
-<div class="container mt-5">
-  <h3 class="mb-4">Sales Agent Dashboard</h3>
+<div class="container my-5">
+  <h1 class="text-center mb-4">Sales Agent Dashboard</h1>
   <div class="row g-4">
-    
     <!-- Record Sales -->
     <div class="col-md-6">
       <a href="{% url 'record_sales' %}" class="text-decoration-none">
-        <div class="card hover-card card-theme-green h-100 text-center p-3">
+        <div class="card h-100 shadow-sm text-center border-success">
           <div class="card-body">
-            <i class="bi bi-cart-plus-fill card-icon"></i>
-            <h5 class="card-title">Record Sales</h5>
+            <i class="bi bi-cart-plus-fill text-success" style="font-size: 2.5rem;"></i>
+            <h5 class="card-title text-success">Record Sales</h5>
             <p class="card-text">Quickly record a new sales transaction.</p>
           </div>
         </div>
@@ -86,42 +19,41 @@
     </div>
 
     <div class="col-md-6">
-        <a href="{% url 'receipt' %}" class="text-decoration-none">
-          <div class="card hover-card card-theme-green h-100 text-center p-3">
-            <div class="card-body">
-              <i class="bi bi-cart-plus-fill card-icon"></i>
-              <h5 class="card-title">View Receipts</h5>
-              <p class="card-text">Quickly view new Receipts</p>
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <div class="col-md-6">
-        <a href="{% url 'deffered_payments_list' %}" class="text-decoration-none">
-          <div class="card hover-card card-theme-green h-100 text-center p-3">
-            <div class="card-body">
-              <i class="bi bi-cart-plus-fill card-icon"></i>
-              <h5 class="card-title">View deffered_payments_list</h5>
-              <p class="card-text">Quickly  view all credis made </p>
-            </div>
-          </div>
-        </a>
-      </div>
-
-    <!-- Deferred Payments -->
-    <div class="col-md-6">
-      <a href="{% url 'deffered_payments' %}" class="text-decoration-none">
-        <div class="card hover-card card-theme-blue h-100 text-center p-3">
+      <a href="{% url 'receipt' %}" class="text-decoration-none">
+        <div class="card h-100 shadow-sm text-center border-primary">
           <div class="card-body">
-            <i class="bi bi-receipt-cutoff card-icon"></i>
-            <h5 class="card-title">Record Deferred Payments</h5>
-            <p class="card-text"></p>
+            <i class="bi bi-receipt-cutoff text-primary" style="font-size: 2.5rem;"></i>
+            <h5 class="card-title text-primary">View Receipts</h5>
+            <p class="card-text">View all receipts.</p>
           </div>
         </div>
       </a>
     </div>
 
+    <div class="col-md-6">
+      <a href="{% url 'deffered_payments_list' %}" class="text-decoration-none">
+        <div class="card h-100 shadow-sm text-center border-info">
+          <div class="card-body">
+            <i class="bi bi-list-check text-info" style="font-size: 2.5rem;"></i>
+            <h5 class="card-title text-info">Deferred Payments List</h5>
+            <p class="card-text">View all deferred payments.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Deferred Payments -->
+    <div class="col-md-6">
+      <a href="{% url 'deffered_payments' %}" class="text-decoration-none">
+        <div class="card h-100 shadow-sm text-center border-warning">
+          <div class="card-body">
+            <i class="bi bi-receipt-cutoff text-warning" style="font-size: 2.5rem;"></i>
+            <h5 class="card-title text-warning">Record Deferred Payments</h5>
+            <p class="card-text">Record new deferred payments.</p>
+          </div>
+        </div>
+      </a>
+    </div>
   </div>
 </div>
 {% endblock %}

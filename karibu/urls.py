@@ -9,9 +9,8 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('home/', views.home, name='home'),
     path('register/', views.register, name='register'),
-    path('', auth_views.LoginView.as_view(template_name='ebook/login.html'), name = 'login'),
-    path('Login/', views.Login, name='Login'),
-    path('logout/', auth_views.LoginView.as_view(template_name='ebook/logout.html'), name = 'logout'),
+    path('login/', views.Login, name='login'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='/'), name = 'logout'),
     path('home/<int:product_id>/',views.product_detail, name = 'product_detail'),
     path('product/<int:product_id>/edit/', views.edit_detail, name='edit_detail'),
     path('delete/<int:product_id>/',views.delete_detail, name = 'delete_detail'),
@@ -35,6 +34,5 @@ urlpatterns = [
 
     # Sales Agent dashboard (users in "SalesAgent" group)
     path('salesagent_dashboard/', views.salesagent_dashboard, name='salesagent_dashboard'),
-    path('send_verification_code/', views.SendVerificationCodeAPI.as_view(), name='send_verification_code'),
-    path('verify_code/', views.VerifyCodeAPI.as_view(), name='verify_code'), 
+    
 ]

@@ -2,160 +2,47 @@
 {% load static %}
 
 {% block content %}
-<style>
-  
-  body {
-    font-family: Arial, 'Raleway', 'Montserrat', sans-serif;
-    background-color: #f0f7f8;
-    margin: 0;
-    padding: 0;
-  }
-
-  .container {
-    max-width: 1000px;
-    margin: 3rem auto;
-    padding: 2rem;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
-    border: 1px solid #008080;
-  }
-
-  .row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    justify-content: center;
-  }
-
-  .col-md-5 {
-    flex: 1 1 calc(45% - 1rem);
-    max-width: 45%;
-  }
-
-  .card {
-    border: 2px solid #008080;
-    border-radius: 12px;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-    background-color: #e0f4f4;
-    cursor: pointer;
-  }
-
-  .card:hover {
-    background-color: #d0eeee;
-    transform: translateY(-5px);
-  }
-
-  .card-icon {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .card-title {
-    font-size: 1.3rem;
-    color: #004d4d;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-
-  .card-text {
-    font-size: 0.95rem;
-    color: #006666;
-  }
-
-  /* Optional: Color-themed shadow per data-color (Bootstrap-like) */
-  .card[data-color="primary"] {
-    border-left: 5px solid ;
-  }
-
-  .card[data-color="success"] {
-    border-left: 5px solid;
-  }
-
-  .card[data-color="warning"] {
-    border-left: 5px solid;
-  }
-
-  .card[data-color="danger"] {
-    border-left: 5px solid;
-  }
-
-  .card[data-color="info"] {
-    border-left: 5px solid ;
-  }
-
-  @media (max-width: 768px) {
-    .col-md-5 {
-      flex: 1 1 100%;
-      max-width: 100%;
-    }
-
-    .container {
-      padding: 1rem;
-    }
-
-    .card-title {
-      font-size: 1.1rem;
-    }
-
-    .card-text {
-      font-size: 0.9rem;
-    }
-
-    .card-icon {
-      font-size: 2rem;
-    }
-  }
-</style>
-
-</style>
-<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
-
-
+<div class="container my-5">
+  <h1 class="text-center mb-4">Owner Dashboard</h1>
   <div class="row g-4 justify-content-center">
     <!-- View All Sales -->
-    <div class="col-md-5">
-      <a href="{% url 'all_sales' %}" class="text-decoration-none" aria-label="View all sales transactions">
-        <div class="card hover-card h-100 shadow-sm text-center p-3" data-color="primary">
+    <div class="col-md-4">
+      <a href="{% url 'all_sales' %}" class="text-decoration-none">
+        <div class="card h-100 shadow-sm text-center border-primary">
           <div class="card-body">
-            <i class="bi bi-bar-chart-line-fill card-icon text-primary"></i>
-            <h5 class="card-title">View All Sales</h5>
-            <p class="card-text text-muted">Access the complete list of all sales transactions.</p>
+            <i class="bi bi-bar-chart-line-fill text-primary" style="font-size: 2.5rem;"></i>
+            <h5 class="card-title text-primary">View All Sales</h5>
+            <p class="card-text">Access the complete list of all sales transactions.</p>
           </div>
         </div>
       </a>
     </div>
 
     <!-- View Final Receipts -->
-    <div class="col-md-5">
-      <a href="{% url 'receipt' %}" class="text-decoration-none" aria-label="View all final receipts">
-        <div class="card hover-card h-100 shadow-sm text-center p-3" data-color="success">
+    <div class="col-md-4">
+      <a href="{% url 'receipt' %}" class="text-decoration-none">
+        <div class="card h-100 shadow-sm text-center border-success">
           <div class="card-body">
-            <i class="bi bi-receipt-cutoff card-icon text-success"></i>
-            <h5 class="card-title">View Final Receipts</h5>
-            <p class="card-text text-muted">Download or review all final sales receipts.</p>
+            <i class="bi bi-receipt-cutoff text-success" style="font-size: 2.5rem;"></i>
+            <h5 class="card-title text-success">View Final Receipts</h5>
+            <p class="card-text">Download or review all final sales receipts.</p>
           </div>
         </div>
       </a>
     </div>
 
     <!-- View Products -->
-    <div class="col-md-5">
-      <a href="{% url 'home' %}" class="text-decoration-none" aria-label="View all products in stock">
-        <div class="card hover-card h-100 shadow-sm text-center p-3" data-color="warning">
+    <div class="col-md-4">
+      <a href="{% url 'home' %}" class="text-decoration-none">
+        <div class="card h-100 shadow-sm text-center border-warning">
           <div class="card-body">
-            <i class="bi bi-boxes card-icon text-warning"></i>
-            <h5 class="card-title">View Stocks</h5>
-            <p class="card-text text-muted">Browse the list of all available products in stock.</p>
+            <i class="bi bi-boxes text-warning" style="font-size: 2.5rem;"></i>
+            <h5 class="card-title text-warning">View Stocks</h5>
+            <p class="card-text">Browse the list of all available products in stock.</p>
           </div>
         </div>
       </a>
     </div>
-
-    
-
-    <!-- Total Sales -->
-    
   </div>
-
+</div>
 {% endblock %}
