@@ -64,7 +64,20 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="nav navbar-nav ml-auto">
-         {% if user.is_authenticated %}
+          {% if user.is_authenticated %}
+            {% if user.is_administrator %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'owner_dashboard' %}" style="color: white;">DASHBOARD</a>
+            </li>
+            {% elif user.is_manager %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'manager_dashboard' %}" style="color: white;">DASHBOARD</a>
+            </li>
+            {% elif user.is_salesagent %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'salesagent_dashboard' %}" style="color: white;">DASHBOARD</a>
+            </li>
+            {% endif %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'home' %}" style="color: white;">HOME</a>
             </li>

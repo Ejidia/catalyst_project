@@ -142,7 +142,7 @@
     </div>
     <div class="stat-card">
       <i class="bi bi-cash-coin stat-icon"></i>
-      <div class="stat-value">${{ total_sales_amount|floatformat:2 }}</div>
+      <div class="stat-value">UGX {{ total_sales_amount|floatformat:2 }}</div>
       <div class="stat-label">Total Sales</div>
     </div>
     <div class="stat-card">
@@ -160,7 +160,7 @@
         <div>
           <strong>{{ sale.item.item_name }}</strong> - {{ sale.quantity }} units
         </div>
-        <div>${{ sale.amount_received|floatformat:2 }}</div>
+        <div>UGX {{ sale.amount_received|floatformat:2 }}</div>
       </li>
       {% empty %}
       <li class="sales-item">No recent sales</li>

@@ -145,7 +145,7 @@
   <div class="stats-container">
     <div class="stat-card">
       <i class="bi bi-cash-coin stat-icon"></i>
-      <div class="stat-value">${{ total_sales|floatformat:2 }}</div>
+      <div class="stat-value">UGX {{ total_sales|floatformat:2 }}</div>
       <div class="stat-label">Total Sales</div>
     </div>
     <div class="stat-card">
@@ -155,7 +155,7 @@
     </div>
     <div class="stat-card">
       <i class="bi bi-calculator stat-icon"></i>
-      <div class="stat-value">${{ total_stock_value|floatformat:2 }}</div>
+      <div class="stat-value">UGX {{ total_stock_value|floatformat:2 }}</div>
       <div class="stat-label">Stock Value</div>
     </div>
     <div class="stat-card">
@@ -175,14 +175,14 @@
     </div>
     <div class="stat-card">
       <i class="bi bi-credit-card stat-icon"></i>
-      <div class="stat-value">${{ total_deferred|floatformat:2 }}</div>
+      <div class="stat-value">UGX {{ total_deferred|floatformat:2 }}</div>
       <div class="stat-label">Deferred Payments</div>
     </div>
   </div>
 
   <div class="chart-container">
     <h3 style="color: #008080; text-align: center;">Sales Trend (Last 7 Days)</h3>
-    <canvas id="salesChart" width="400" height="200"></canvas>
+    <canvas id="salesChart" width="400" height="200" data-labels="{{ labels_json|safe }}" data-data="{{ sales_data_json|safe }}"></canvas>
   </div>
 
   <div class="recent-sales">
@@ -193,7 +193,7 @@
         <div>
           <strong>{{ sale.item.item_name }}</strong> - {{ sale.quantity }} units
         </div>
-        <div>${{ sale.amount_received|floatformat:2 }}</div>
+        <div>UGX {{ sale.amount_received|floatformat:2 }}</div>
       </li>
       {% empty %}
       <li class="sales-item">No recent sales</li>
@@ -222,15 +222,16 @@
 </div>
 
 <script>
-  const labels = {{ labels_json|safe }};
-  const salesData = {{ sales_data_json|safe }};
-  const ctx = document.getElementById('salesChart').getContext('2d');
+  const canvas = document.getElementById('salesChart');
+  const labels = JSON.parse(canvas.dataset.labels);
+  const salesData = JSON.parse(canvas.dataset.data);
+  const ctx = canvas.getContext('2d');
   const salesChart = new Chart(ctx, {
     type: 'line',
     data: {
       labels: labels,
       datasets: [{
-        label: 'Daily Sales ($)',
+        label: 'Daily Sales (UGX)',
         data: salesData,
         borderColor: '#008080',
         backgroundColor: 'rgba(0, 128, 128, 0.1)',

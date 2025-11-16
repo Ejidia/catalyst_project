@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout as django_logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
 from .models import *
 from .forms import *
 from .filters import StockFilter
@@ -40,7 +41,6 @@ def logout(request):
 
 
 @login_required
-@require_POST
 def log_out(request):
     django_logout(request)
     return redirect('/')
@@ -229,7 +229,7 @@ def signup(request):
         form = UserCreation()
     return render(request, 'ebook/signup.html', {'form': form})
 
-@login_required
+@csrf_exempt
 def Login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -337,5 +337,16 @@ def final_receipt(request, receipt_id):
 
     receipt = get_object_or_404(Receipt, id=receipt_id)
     return render(request, 'ebook/receipt_detail.html', {'receipt': receipt})
+
+@login_required
+def profile_redirect(request):
+    if request.user.is_administrator:
+        return redirect('owner_dashboard')
+    elif request.user.is_manager:
+        return redirect('manager_dashboard')
+    elif request.user.is_salesagent:
+        return redirect('salesagent_dashboard')
+    else:
+        return redirect('home')
 
 

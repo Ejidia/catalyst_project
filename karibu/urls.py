@@ -34,5 +34,8 @@ urlpatterns = [
 
     # Sales Agent dashboard (users in "SalesAgent" group)
     path('salesagent_dashboard/', views.salesagent_dashboard, name='salesagent_dashboard'),
-    
+
+    # Profile redirect
+    path('accounts/profile/', views.profile_redirect, name='profile_redirect'),
+
 ]
