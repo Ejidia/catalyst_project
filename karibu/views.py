@@ -8,6 +8,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout as django_logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.views.decorators.http import require_POST
 from .models import *
 from .forms import *
 from .filters import StockFilter
@@ -39,6 +40,7 @@ def logout(request):
 
 
 @login_required
+@require_POST
 def log_out(request):
     django_logout(request)
     return redirect('/')

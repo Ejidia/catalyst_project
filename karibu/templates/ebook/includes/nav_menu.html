@@ -75,7 +75,10 @@
               <a class="nav-link" href="{% url 'receipt' %}" style="color: white;">RECEIPTS</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{% url 'logout' %}" style="color: white;">LOGOUT</a>
+              <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="nav-link" style="background: none; border: none; color: white; cursor: pointer;">LOGOUT</button>
+              </form>
             </li>
           {% endif %}
         </ul>
