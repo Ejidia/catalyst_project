@@ -2,60 +2,239 @@
 {% load static %}
 
 {% block content %}
-<div class="container my-5">
-  <h1 class="text-center mb-4">Manager Dashboard</h1>
-  <div class="row g-4">
-    <!-- Add Stock -->
-    <div class="col-md-6">
-      <a href="{% url 'add_product' %}" class="text-decoration-none">
-        <div class="card h-100 shadow-sm text-center border-info">
-          <div class="card-body">
-            <i class="bi bi-plus-circle-fill text-info" style="font-size: 2.5rem;"></i>
-            <h5 class="card-title text-info">Add Stock</h5>
-            <p class="card-text">Record new stock into the inventory system.</p>
-          </div>
-        </div>
-      </a>
-    </div>
+<style>
+  body {
+    font-family: Arial, 'Raleway', 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #f0f7f8 0%, #e0f4f4 100%);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
 
-    <!-- All Stock -->
-    <div class="col-md-6">
-      <a href="{% url 'home' %}" class="text-decoration-none">
-        <div class="card h-100 shadow-sm text-center border-secondary">
-          <div class="card-body">
-            <i class="bi bi-archive-fill text-secondary" style="font-size: 2.5rem;"></i>
-            <h5 class="card-title text-secondary">All Stock</h5>
-            <p class="card-text">View and manage all available stock items.</p>
-          </div>
-        </div>
-      </a>
-    </div>
+  .dashboard-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #008080;
+  }
 
-    <!-- Record Sales -->
-    <div class="col-md-6">
-      <a href="{% url 'record_sales' %}" class="text-decoration-none">
-        <div class="card h-100 shadow-sm text-center border-success">
-          <div class="card-body">
-            <i class="bi bi-cart-plus-fill text-success" style="font-size: 2.5rem;"></i>
-            <h5 class="card-title text-success">Record Sales</h5>
-            <p class="card-text">Process a new sales transaction quickly.</p>
-          </div>
-        </div>
-      </a>
-    </div>
+  .stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
 
-    <!-- Deferred Payments -->
-    <div class="col-md-6">
-      <a href="{% url 'deffered_payments' %}" class="text-decoration-none">
-        <div class="card h-100 shadow-sm text-center border-warning">
-          <div class="card-body">
-            <i class="bi bi-receipt-cutoff text-warning" style="font-size: 2.5rem;"></i>
-            <h5 class="card-title text-warning">Deferred Payments</h5>
-            <p class="card-text">Track and view all recorded sales data.</p>
-          </div>
-        </div>
-      </a>
+  .stat-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f7f8 100%);
+    border: 2px solid #008080;
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 128, 128, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(0, 128, 128, 0.2);
+  }
+
+  .stat-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #008080;
+  }
+
+  .stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #004d4d;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 1rem;
+    color: #006666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .alerts-container {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+  }
+
+  .alerts-container h3 {
+    color: #008080;
+    margin-bottom: 1rem;
+  }
+
+  .alert-item {
+    padding: 1rem;
+    border-bottom: 1px solid #e0f4f4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .alert-item:last-child {
+    border-bottom: none;
+  }
+
+  .alert-warning {
+    color: #856404;
+    font-weight: bold;
+  }
+
+  .recent-container {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+  }
+
+  .recent-container h3 {
+    color: #008080;
+    margin-bottom: 1rem;
+  }
+
+  .recent-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .recent-item {
+    padding: 1rem;
+    border-bottom: 1px solid #e0f4f4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .recent-item:last-child {
+    border-bottom: none;
+  }
+
+  .actions-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .action-card {
+    background: linear-gradient(135deg, #008080 0%, #006666 100%);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+  }
+
+  .action-card:hover {
+    transform: translateY(-3px);
+    text-decoration: none;
+    color: #ffffff;
+  }
+
+  .action-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .stats-container {
+      grid-template-columns: 1fr;
+    }
+
+    .actions-container {
+      grid-template-columns: 1fr;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+
+<div class="container-fluid">
+  <h1 class="dashboard-header">Manager Dashboard</h1>
+
+  <div class="stats-container">
+    <div class="stat-card">
+      <i class="bi bi-boxes stat-icon"></i>
+      <div class="stat-value">{{ total_products }}</div>
+      <div class="stat-label">Total Products</div>
+    </div>
+    <div class="stat-card">
+      <i class="bi bi-calculator stat-icon"></i>
+      <div class="stat-value">${{ total_stock_value|floatformat:2 }}</div>
+      <div class="stat-label">Stock Value</div>
+    </div>
+    <div class="stat-card">
+      <i class="bi bi-cart-plus stat-icon"></i>
+      <div class="stat-value">{{ today_sales }}</div>
+      <div class="stat-label">Sales Today</div>
+    </div>
+    <div class="stat-card">
+      <i class="bi bi-cash-coin stat-icon"></i>
+      <div class="stat-value">${{ total_sales_today|floatformat:2 }}</div>
+      <div class="stat-label">Revenue Today</div>
     </div>
   </div>
+
+  <div class="alerts-container">
+    <h3>Low Stock Alerts</h3>
+    {% for item in low_stock_items %}
+    <div class="alert-item">
+      <div>
+        <strong class="alert-warning">{{ item.item_name }}</strong> - Only {{ item.total_quantity }} left
+      </div>
+      <a href="{% url 'add_to_stock' item.id %}" class="btn btn-sm btn-primary">Restock</a>
+    </div>
+    {% empty %}
+    <div class="alert-item">All items are sufficiently stocked</div>
+    {% endfor %}
+  </div>
+
+  <div class="recent-container">
+    <h3>Recent Stock Additions</h3>
+    <ul class="recent-list">
+      {% for item in recent_additions %}
+      <li class="recent-item">
+        <div>
+          <strong>{{ item.item_name }}</strong> - {{ item.total_quantity }} units
+        </div>
+        <div>{{ item.created_at|date:"M d, Y" }}</div>
+      </li>
+      {% empty %}
+      <li class="recent-item">No recent additions</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="actions-container">
+    <a href="{% url 'add_product' %}" class="action-card">
+      <i class="bi bi-plus-circle action-icon"></i>
+      <div>Add Stock</div>
+    </a>
+    <a href="{% url 'home' %}" class="action-card">
+      <i class="bi bi-archive-fill action-icon"></i>
+      <div>All Stock</div>
+    </a>
+    <a href="{% url 'record_sales' %}" class="action-card">
+      <i class="bi bi-cart-plus-fill action-icon"></i>
+      <div>Record Sales</div>
+    </a>
+    <a href="{% url 'deffered_payments' %}" class="action-card">
+      <i class="bi bi-receipt-cutoff action-icon"></i>
+      <div>Deferred Payments</div>
+    </a>
+  </div>
 </div>
+
 {% endblock %}

@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.urls import reverse
 from django.template.loader import get_template
-from django.db.models import Sum
+from django.db.models import Sum, F
+from django.utils import timezone
+import json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout as django_logout
 from django.contrib.auth.forms import AuthenticationForm
@@ -220,7 +222,7 @@ def signup(request):
         form = UserCreation(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/login')
+            return redirect('/Login')
     else:
         form = UserCreation()
     return render(request, 'ebook/signup.html', {'form': form})
@@ -255,20 +257,74 @@ def Login(request):
 def owner_dashboard(request):
     receipts = Receipt.objects.all().order_by('-date')
     total_sales = receipts.aggregate(total=Sum('amount_received'))['total'] or 0
+    total_products = Stock.objects.count()
+    total_stock_value = Stock.objects.aggregate(total=Sum(models.F('unit_price') * models.F('total_quantity')))['total'] or 0
+    total_transactions = Sales.objects.count()
+    recent_sales = Sales.objects.all().order_by('-date_of_sales')[:5]
+    total_deferred = Deffered_payments.objects.aggregate(total=Sum('balance'))['total'] or 0
+    total_managers = Userprofile.objects.filter(is_manager=True).count()
+    total_salesagents = Userprofile.objects.filter(is_salesagent=True).count()
+
+    # Data for charts
+    sales_data = []
+    labels = []
+    for i in range(7):  # Last 7 days
+        date = timezone.now() - timezone.timedelta(days=i)
+        day_sales = receipts.filter(date__date=date.date()).aggregate(total=Sum('amount_received'))['total'] or 0
+        sales_data.append(float(day_sales))
+        labels.append(date.strftime('%Y-%m-%d'))
+
+    sales_data.reverse()
+    labels.reverse()
+
     return render(request, 'ebook/owner_dashboard.html', {
         'receipts': receipts,
-        'total_sales': total_sales
+        'total_sales': total_sales,
+        'total_products': total_products,
+        'total_stock_value': total_stock_value,
+        'total_transactions': total_transactions,
+        'recent_sales': recent_sales,
+        'total_deferred': total_deferred,
+        'total_managers': total_managers,
+        'total_salesagents': total_salesagents,
+        'sales_data_json': json.dumps(sales_data),
+        'labels_json': json.dumps(labels)
     })
 
 
 @login_required
 def manager_dashboard(request):
-    return render(request, 'ebook/manager_dashboard.html')
+    total_products = Stock.objects.count()
+    total_stock_value = Stock.objects.aggregate(total=Sum(F('unit_price') * F('total_quantity')))['total'] or 0
+    low_stock_items = Stock.objects.filter(total_quantity__lt=10).order_by('total_quantity')[:5]
+    recent_additions = Stock.objects.all().order_by('-created_at')[:5]
+    today_sales = Sales.objects.filter(date_of_sales__date=timezone.now().date()).count()
+    total_sales_today = Sales.objects.filter(date_of_sales__date=timezone.now().date()).aggregate(total=Sum('amount_received'))['total'] or 0
+
+    return render(request, 'ebook/manager_dashboard.html', {
+        'total_products': total_products,
+        'total_stock_value': total_stock_value,
+        'low_stock_items': low_stock_items,
+        'recent_additions': recent_additions,
+        'today_sales': today_sales,
+        'total_sales_today': total_sales_today
+    })
 
 
 @login_required
 def salesagent_dashboard(request):
-    return render(request, 'ebook/salesagent_dashboard.html')
+    user_sales = Sales.objects.filter(seller=request.user.username)
+    today_sales = user_sales.filter(date_of_sales__date=timezone.now().date()).count()
+    total_sales_amount = user_sales.aggregate(total=Sum('amount_received'))['total'] or 0
+    recent_sales = user_sales.order_by('-date_of_sales')[:5]
+    pending_deferred = Deffered_payments.objects.filter(agent=request.user.username, balance__gt=0).count()
+
+    return render(request, 'ebook/salesagent_dashboard.html', {
+        'today_sales': today_sales,
+        'total_sales_amount': total_sales_amount,
+        'recent_sales': recent_sales,
+        'pending_deferred': pending_deferred
+    })
 
 
 @login_required

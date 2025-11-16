@@ -2,47 +2,261 @@
 {% load static %}
 
 {% block content %}
-<div class="container my-5">
-  <h1 class="text-center mb-4">Owner Dashboard</h1>
-  <div class="row g-4 justify-content-center">
-    <!-- View All Sales -->
-    <div class="col-md-4">
-      <a href="{% url 'all_sales' %}" class="text-decoration-none">
-        <div class="card h-100 shadow-sm text-center border-primary">
-          <div class="card-body">
-            <i class="bi bi-bar-chart-line-fill text-primary" style="font-size: 2.5rem;"></i>
-            <h5 class="card-title text-primary">View All Sales</h5>
-            <p class="card-text">Access the complete list of all sales transactions.</p>
-          </div>
-        </div>
-      </a>
-    </div>
+<style>
+  body {
+    font-family: Arial, 'Raleway', 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #f0f7f8 0%, #e0f4f4 100%);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+  }
 
-    <!-- View Final Receipts -->
-    <div class="col-md-4">
-      <a href="{% url 'receipt' %}" class="text-decoration-none">
-        <div class="card h-100 shadow-sm text-center border-success">
-          <div class="card-body">
-            <i class="bi bi-receipt-cutoff text-success" style="font-size: 2.5rem;"></i>
-            <h5 class="card-title text-success">View Final Receipts</h5>
-            <p class="card-text">Download or review all final sales receipts.</p>
-          </div>
-        </div>
-      </a>
-    </div>
+  .dashboard-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #008080;
+  }
 
-    <!-- View Products -->
-    <div class="col-md-4">
-      <a href="{% url 'home' %}" class="text-decoration-none">
-        <div class="card h-100 shadow-sm text-center border-warning">
-          <div class="card-body">
-            <i class="bi bi-boxes text-warning" style="font-size: 2.5rem;"></i>
-            <h5 class="card-title text-warning">View Stocks</h5>
-            <p class="card-text">Browse the list of all available products in stock.</p>
-          </div>
-        </div>
-      </a>
+  .stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .stat-card {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f7f8 100%);
+    border: 2px solid #008080;
+    border-radius: 15px;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 128, 128, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(0, 128, 128, 0.2);
+  }
+
+  .stat-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #008080;
+  }
+
+  .stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #004d4d;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: 1rem;
+    color: #006666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .chart-container {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+  }
+
+  .recent-sales {
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+
+  .recent-sales h3 {
+    color: #008080;
+    margin-bottom: 1rem;
+  }
+
+  .sales-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .sales-item {
+    padding: 1rem;
+    border-bottom: 1px solid #e0f4f4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sales-item:last-child {
+    border-bottom: none;
+  }
+
+  .actions-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .action-card {
+    background: linear-gradient(135deg, #008080 0%, #006666 100%);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+  }
+
+  .action-card:hover {
+    transform: translateY(-3px);
+    text-decoration: none;
+    color: #ffffff;
+  }
+
+  .action-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .stats-container {
+      grid-template-columns: 1fr;
+    }
+
+    .actions-container {
+      grid-template-columns: 1fr;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+
+<div class="container-fluid">
+  <h1 class="dashboard-header">Owner Dashboard</h1>
+
+  <div class="stats-container">
+    <div class="stat-card">
+      <i class="bi bi-cash-coin stat-icon"></i>
+      <div class="stat-value">${{ total_sales|floatformat:2 }}</div>
+      <div class="stat-label">Total Sales</div>
+    </div>
+    <div class="stat-card">
+      <i class="bi bi-boxes stat-icon"></i>
+      <div class="stat-value">{{ total_products }}</div>
+      <div class="stat-label">Total Products</div>
+    </div>
+    <div class="stat-card">
+      <i class="bi bi-calculator stat-icon"></i>
+      <div class="stat-value">${{ total_stock_value|floatformat:2 }}</div>
+      <div class="stat-label">Stock Value</div>
+    </div>
+    <div class="stat-card">
+      <i class="bi bi-receipt stat-icon"></i>
+      <div class="stat-value">{{ total_transactions }}</div>
+      <div class="stat-label">Transactions</div>
+    </div>
+    <div class="stat-card">
+      <i class="bi bi-people stat-icon"></i>
+      <div class="stat-value">{{ total_managers }}</div>
+      <div class="stat-label">Managers</div>
+    </div>
+    <div class="stat-card">
+      <i class="bi bi-person-badge stat-icon"></i>
+      <div class="stat-value">{{ total_salesagents }}</div>
+      <div class="stat-label">Sales Agents</div>
+    </div>
+    <div class="stat-card">
+      <i class="bi bi-credit-card stat-icon"></i>
+      <div class="stat-value">${{ total_deferred|floatformat:2 }}</div>
+      <div class="stat-label">Deferred Payments</div>
     </div>
   </div>
+
+  <div class="chart-container">
+    <h3 style="color: #008080; text-align: center;">Sales Trend (Last 7 Days)</h3>
+    <canvas id="salesChart" width="400" height="200"></canvas>
+  </div>
+
+  <div class="recent-sales">
+    <h3>Recent Sales</h3>
+    <ul class="sales-list">
+      {% for sale in recent_sales %}
+      <li class="sales-item">
+        <div>
+          <strong>{{ sale.item.item_name }}</strong> - {{ sale.quantity }} units
+        </div>
+        <div>${{ sale.amount_received|floatformat:2 }}</div>
+      </li>
+      {% empty %}
+      <li class="sales-item">No recent sales</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <div class="actions-container">
+    <a href="{% url 'all_sales' %}" class="action-card">
+      <i class="bi bi-bar-chart-line-fill action-icon"></i>
+      <div>View All Sales</div>
+    </a>
+    <a href="{% url 'receipt' %}" class="action-card">
+      <i class="bi bi-receipt-cutoff action-icon"></i>
+      <div>View Receipts</div>
+    </a>
+    <a href="{% url 'home' %}" class="action-card">
+      <i class="bi bi-boxes action-icon"></i>
+      <div>View Stocks</div>
+    </a>
+    <a href="{% url 'deffered_payments_list' %}" class="action-card">
+      <i class="bi bi-credit-card action-icon"></i>
+      <div>Deferred Payments</div>
+    </a>
+  </div>
 </div>
+
+<script>
+  const labels = {{ labels_json|safe }};
+  const salesData = {{ sales_data_json|safe }};
+  const ctx = document.getElementById('salesChart').getContext('2d');
+  const salesChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Daily Sales ($)',
+        data: salesData,
+        borderColor: '#008080',
+        backgroundColor: 'rgba(0, 128, 128, 0.1)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.4
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top',
+        },
+        title: {
+          display: true,
+          text: 'Sales Over Time'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+
 {% endblock %}
