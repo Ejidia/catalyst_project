@@ -3,188 +3,291 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Karibu Groceries Limited - Welcome</title>
   <style>
-    html, body {
-      height: 100%;
+    * {
       margin: 0;
       padding: 0;
-      display: flex;
-      flex-direction: column;
-      background: #f0f7f8;
-      font-family: Arial, 'Raleway', 'Montserrat', sans-serif;
+      box-sizing: border-box;
     }
 
     body {
-      flex: 1;
-      background-image: url("{% static 'ebook/images/be.png' %}");
+      font-family: 'Arial', 'Raleway', 'Montserrat', sans-serif;
+      line-height: 1.6;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    .hero {
+      background: linear-gradient(rgba(0, 128, 128, 0.7), rgba(0, 128, 128, 0.9)), url("{% static 'ebook/images/be.png' %}");
       background-size: cover;
+      background-position: center;
       background-attachment: fixed;
-      background-repeat: no-repeat;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
       position: relative;
     }
 
-    body::before {
+    .hero::before {
       content: '';
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.4);
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.3);
       z-index: 1;
     }
 
-    .page-content {
-      flex: 1;
-      padding: 20px;
-      position: relative;
+    .hero-content {
       z-index: 2;
+      max-width: 800px;
+      padding: 0 20px;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .hero p {
+      font-size: 1.3rem;
+      margin-bottom: 2rem;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+      animation: fadeInUp 1s ease-out 0.3s both;
+    }
+
+    .btn-primary {
       background: #ffffff;
-      border: 1px solid #008080;
-      border-radius: 12px;
-      margin: 40px auto;
-      max-width: 1200px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-    }
-
-    h1 {
-      text-align: center;
       color: #008080;
-      font-size: 2rem;
-      margin: 30px 0;
-      letter-spacing: 1px;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      animation: fadeInUp 1s ease-out 0.6s both;
     }
 
-    .logo {
-      width: 300px;
-      height: auto;
-      border-radius: 10px;
-      border: 1px solid #008080;
-      display: block;
+    .btn-primary:hover {
+      background: #f0f0f0;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    .features {
+      padding: 80px 20px;
+      background: #f8f9fa;
+      text-align: center;
+    }
+
+    .features h2 {
+      font-size: 2.5rem;
+      color: #008080;
+      margin-bottom: 3rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
       margin: 0 auto;
     }
 
-    .btn-login {
-      background-color: #008080;
-      color: #ffffff;
-      padding: 10px 20px;
-      border-radius: 5px;
-      font-weight: bold;
-      font-size: large;
-      width: 120px;
-      height: 60px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      float: right;
-      transition: background-color 0.3s ease;
+    .feature-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      color: #008080;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
+      color: #333;
+      margin-bottom: 1rem;
+    }
+
+    .feature-card p {
+      color: #666;
+      font-size: 1rem;
+    }
+
+    .about {
+      padding: 80px 20px;
+      background: white;
+      text-align: center;
+    }
+
+    .about h2 {
+      font-size: 2.5rem;
+      color: #008080;
+      margin-bottom: 2rem;
+    }
+
+    .about p {
+      font-size: 1.2rem;
+      color: #666;
+      max-width: 800px;
+      margin: 0 auto 2rem;
+      line-height: 1.8;
+    }
+
+    .cta {
+      padding: 60px 20px;
+      background: linear-gradient(135deg, #008080 0%, #006666 100%);
+      color: white;
+      text-align: center;
+    }
+
+    .cta h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .cta p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #008080;
+      padding: 15px 30px;
       border: none;
-      cursor: pointer;
-    }
-
-    .btn-login a {
-      color: #ffffff;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: bold;
       text-decoration: none;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: inline-block;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     }
 
-    .btn-login:hover {
-      background-color: #006666;
-    }
-
-    .row {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      margin: 30px 0;
-    }
-
-    .col-lg-6 {
-      flex: 0 0 48%;
-      box-sizing: border-box;
-      margin-bottom: 20px;
-    }
-
-    .card-title, .card-body {
-      background: #ffffff;
-      border: 1px solid #008080;
-      border-radius: 8px;
-      padding: 15px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    .btn-secondary:hover {
+      background: #f0f0f0;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     }
 
     footer {
-      background: #008080;
-      color: #ffffff;
+      background: #333;
+      color: white;
       text-align: center;
-      padding: 12px;
-      font-weight: bold;
-      margin-top: auto;
-      position: relative;
-      z-index: 2;
+      padding: 20px;
+      font-size: 0.9rem;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     @media (max-width: 768px) {
-      .page-content {
-        padding: 15px;
-        margin: 20px 10px;
+      .hero h1 {
+        font-size: 2.5rem;
       }
 
-      h1 {
-        font-size: 1.5rem;
+      .hero p {
+        font-size: 1.1rem;
       }
 
-      .logo {
-        width: 200px;
+      .features h2,
+      .about h2,
+      .cta h2 {
+        font-size: 2rem;
       }
 
-      .btn-login {
-        width: 100px;
-        height: 50px;
-        font-size: medium;
-        float: none;
-        margin: 10px auto;
+      .features-grid {
+        grid-template-columns: 1fr;
       }
 
-      .row {
-        flex-direction: column;
-      }
-
-      .col-lg-6 {
-        flex: 0 0 100%;
-      }
-
-      footer {
-        padding: 10px;
-        font-size: 0.9rem;
+      .feature-card {
+        padding: 1.5rem;
       }
     }
   </style>
 </head>
 
 <body>
-  <div class="page-content">
-    <br><br>
-    <button type="submit" class="btn-login">
-      <a href="{% url 'Login' %}">Login</a>
-    </button>
-    <br><br>
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Welcome to Karibu Groceries Limited</h1>
+      <p>Your trusted partner for quality groceries and exceptional service in Uganda</p>
+      <a href="{% url 'Login' %}" class="btn-primary">Get Started</a>
+    </div>
+  </section>
 
-    <h1>WELCOME TO KARIBU GROCERIES LIMITED</h1>
-    <br><br>
+  <section class="features">
+    <h2>Why Choose Karibu?</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🏪</div>
+        <h3>Quality Products</h3>
+        <p>We source only the finest groceries from trusted suppliers, ensuring freshness and quality in every item.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🚚</div>
+        <h3>Fast Delivery</h3>
+        <p>Quick and reliable delivery service to get your groceries to your doorstep when you need them.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💰</div>
+        <h3>Competitive Prices</h3>
+        <p>Affordable pricing without compromising on quality. We offer the best value for your money.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">👥</div>
+        <h3>Expert Staff</h3>
+        <p>Our knowledgeable team is here to help you find exactly what you need and provide excellent service.</p>
+      </div>
+    </div>
+  </section>
 
-    <header style="text-align: center;">
-      <img src="{% static 'ebook/images/be.png' %}" alt="" class="logo">
-    </header>
+  <section class="about">
+    <h2>About Karibu Groceries</h2>
+    <p>Karibu Groceries Limited has been serving the Ugandan community with dedication and excellence for years. We understand the importance of quality groceries in every household and business. Our commitment to customer satisfaction drives everything we do, from product selection to delivery service.</p>
+    <p>Join thousands of satisfied customers who trust Karibu for their grocery needs. Experience the difference that quality and service make.</p>
+  </section>
 
-
+  <section class="cta">
+    <h2>Ready to Get Started?</h2>
+    <p>Log in to your account to access our full range of services and manage your orders.</p>
+    <a href="{% url 'Login' %}" class="btn-secondary">Login Now</a>
+  </section>
 
   <footer>
-    &copy; Karibu Groceries Limited, Designed by Ejidia Uwabeza
+    <p>&copy; 2025 Karibu Groceries Limited. Designed by Ejidia Uwabeza. All rights reserved.</p>
   </footer>
 </body>
 </html>
