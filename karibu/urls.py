@@ -14,7 +14,7 @@ urlpatterns = [
     path('home/<int:product_id>/',views.product_detail, name = 'product_detail'),
     path('product/<int:product_id>/edit/', views.edit_detail, name='edit_detail'),
     path('delete/<int:product_id>/',views.delete_detail, name = 'delete_detail'),
-    path('issue_item/<str:pk>/', views.issue_item, name='issue_item'),
+    path('issue_item/<int:pk>/', views.issue_item, name='issue_item'),
     path('receipt/', views.receipt, name='receipt'),
     path('receipt/<int:receipt_id>/', views.receipt_detail, name='receipt_detail'),
     path('all_sales/', views.all_sales, name='all_sales'),
@@ -23,7 +23,7 @@ urlpatterns = [
     path('add_product/', views.add_product, name='add_product'),
     path('receipt_detail/<int:receipt_id>/', views.receipt_detail, name='receipt_detail'),
     path('record_sales/', views.record_sales, name='record_sales'),
-    path('add_to_stock/<str:pk>/', views.add_to_stock, name='add_to_stock'),
+    path('add_to_stock/<int:pk>/', views.add_to_stock, name='add_to_stock'),
     path('signup/', views.signup, name='signup'),
 
     # Admin dashboard (superuser/staff)
