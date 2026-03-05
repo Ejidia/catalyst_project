@@ -241,13 +241,13 @@ def Login(request):
         if user is not None:
             login(request, user)
             if user.is_administrator:
-                return redirect('/owner_dashboard')
+                return redirect('owner_dashboard')
             elif user.is_manager:
-                return redirect('/manager_dashboard')
+                return redirect('manager_dashboard')
             elif user.is_salesagent:
-                return redirect('/salesagent_dashboard')
+                return redirect('salesagent_dashboard')
             else:
-                return redirect('/home')
+                return redirect('home')
         else:
             messages.error(request, 'Invalid username or password')
 
