@@ -9,7 +9,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('home/', views.home, name='home'),
     path('register/', views.register, name='register'),
-    path('login/', views.Login, name='login'),
+    path('Login/', views.Login, name='login'),
     path('logout/', views.log_out, name = 'logout'),
     path('home/<int:product_id>/',views.product_detail, name = 'product_detail'),
     path('product/<int:product_id>/edit/', views.edit_detail, name='edit_detail'),
@@ -37,5 +37,11 @@ urlpatterns = [
 
     # Profile redirect
     path('accounts/profile/', views.profile_redirect, name='profile_redirect'),
+
+    # Password reset URLs
+    path('password_reset/', auth_views.PasswordResetView.as_view(template_name='ebook/password_reset.html'), name='password_reset'),
+    path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(template_name='ebook/password_reset_done.html'), name='password_reset_done'),
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(template_name='ebook/password_reset_confirm.html'), name='password_reset_confirm'),
+    path('reset/done/', auth_views.PasswordResetCompleteView.as_view(template_name='ebook/password_reset_complete.html'), name='password_reset_complete'),
 
 ]

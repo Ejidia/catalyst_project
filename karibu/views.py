@@ -217,15 +217,15 @@ def add_to_stock(request, pk):
 
 @login_required
 def signup(request):
-    if not getattr(request.user, 'is_administrator', False):  # assuming admin = owner
-        return HttpResponseForbidden("Only the owner can add users.")
-    ...
+    if not getattr(request.user, 'is_administrator', False):
+        return HttpResponseForbidden("Only administrators can add users.")
 
     if request.method == 'POST':
         form = UserCreation(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/Login')
+            messages.success(request, 'User created successfully!')
+            return redirect('signup')
     else:
         form = UserCreation()
     return render(request, 'ebook/signup.html', {'form': form})
