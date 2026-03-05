@@ -6,305 +6,256 @@
   <title>Login - Karibu Groceries</title>
   {% load static %}
   {% load crispy_forms_tags %}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', 'Raleway', 'Montserrat', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 420px;
+      padding: 40px;
+      animation: slideIn 0.5s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      margin-bottom: 15px;
+    }
+
+    .logo h1 {
+      font-size: 28px;
+      color: #667eea;
+      margin-bottom: 5px;
+    }
+
+    .logo p {
+      color: #666;
+      font-size: 14px;
+    }
+
+    .alert {
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+
+    .alert-error {
+      background-color: #fee;
+      color: #c33;
+      border: 1px solid #fcc;
+    }
+
+    .login-form {
+      margin-top: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      background: #f8f9fa;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .form-links {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .form-links a {
+      color: #667eea;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .form-links a:hover {
+      color: #764ba2;
+      text-decoration: underline;
+    }
+
+    .divider {
+      text-align: center;
+      margin: 25px 0;
+      color: #999;
+      font-size: 13px;
+      position: relative;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 40%;
+      height: 1px;
+      background: #e0e0e0;
+    }
+
+    .divider::before {
+      left: 0;
+    }
+
+    .divider::after {
+      right: 0;
+    }
+
+    .signup-text {
+      text-align: center;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #e0e0e0;
+      color: #666;
+      font-size: 14px;
+    }
+
+    footer {
+      position: fixed;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      color: white;
+      font-size: 13px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 30px 25px;
+      }
+
+      .logo h1 {
+        font-size: 24px;
+      }
+
+      .logo img {
+        width: 70px;
+        height: 70px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<header>
-  <div class="header-left">
-    <a href="/">
-      <img src="{% static 'ebook/images/be.png' %}" alt="Karibu Groceries Logo">
-    </a>
-    <a href="/"><span>Karibu Groceries</span></a>
+<div class="login-container">
+  <div class="logo">
+    <img src="{% static 'ebook/images/be.png' %}" alt="Karibu Groceries">
+    <h1>Welcome Back</h1>
+    <p>Login to your account</p>
   </div>
-</header>
 
-<div class="main-wrapper">
-  <div class="login-container">
-    <h2>Welcome Back</h2>
-    <p class="subtitle">Please login to your account</p>
-    
-    {% if messages %}
-      {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-          {{ message }}
-        </div>
-      {% endfor %}
-    {% endif %}
-    
-    <form method="POST" class="login-form">
-      {% csrf_token %}
-      {{ form|crispy }}
-      <div class="button-container">
-        <button type="submit" class="btn btn-primary">Login</button>
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">
+        {{ message }}
       </div>
-    </form>
-    
-    <div class="form-links">
-      <a href="{% url 'password_reset' %}" class="forgot-password">Forgot Password?</a>
+    {% endfor %}
+  {% endif %}
+
+  <form method="POST" class="login-form">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="id_username">Username</label>
+      <input type="text" name="username" id="id_username" required autofocus>
     </div>
-    
-    <div class="signup-link">
-      <p>Don't have an account? Contact your administrator</p>
+    <div class="form-group">
+      <label for="id_password">Password</label>
+      <input type="password" name="password" id="id_password" required>
     </div>
+    <button type="submit" class="btn-login">Login</button>
+  </form>
+
+  <div class="form-links">
+    <a href="{% url 'password_reset' %}">Forgot Password?</a>
+  </div>
+
+  <div class="signup-text">
+    Don't have an account? Contact your administrator
   </div>
 </div>
 
 <footer>
-  <p>&copy; 2025 Ejidia. All rights reserved</p>
+  &copy; 2025 Karibu Groceries. All rights reserved.
 </footer>
-
-<style>
-body {
-  font-family: Arial, 'Raleway', 'Montserrat', sans-serif;
-  background-color: #f0f7f8;
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-  padding-bottom: 60px;
-  position: relative;
-}
-
-body::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.2);
-  z-index: 1;
-}
-
-header {
-  background-color: #008080;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 999;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-}
-
-.header-left img {
-  height: 50px;
-  width: 50px;
-  border-radius: 10px;
-  border: 1px solid #008080;
-  margin-right: 10px;
-}
-
-.header-left a {
-  text-decoration: none;
-  color: #ffffff;
-  font-size: 22px;
-  font-weight: bold;
-}
-
-.header-left a:hover {
-  color: #006666;
-}
-
-.main-wrapper {
-  padding-top: 120px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  z-index: 2;
-}
-
-.login-container {
-  background: #ffffff;
-  border: 3px solid #008080;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 400px;
-  padding: 40px;
-  text-align: center;
-}
-
-h2 {
-  font-size: 28px;
-  color: #008080;
-  margin-bottom: 10px;
-}
-
-.subtitle {
-  color: #666;
-  margin-bottom: 25px;
-  font-size: 14px;
-}
-
-.alert {
-  padding: 10px;
-  margin-bottom: 20px;
-  border-radius: 5px;
-  text-align: left;
-}
-
-.alert-error {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
-}
-
-.alert-success {
-  background-color: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
-}
-
-.login-form {
-  text-align: left;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  color: #008080;
-  font-weight: bold;
-}
-
-.form-control {
-  border: 1px solid #bbb;
-  border-radius: 5px;
-  padding: 10px;
-  font-size: 16px;
-  width: 100%;
-  background-color: #ffffff;
-}
-
-.button-container {
-  margin-top: 20px;
-}
-
-.btn-primary {
-  background-color: #008080;
-  color: #ffffff;
-  padding: 12px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  width: 100%;
-  font-weight: bold;
-}
-
-.btn-primary:hover {
-  background-color: #006666;
-}
-
-.form-links {
-  margin-top: 15px;
-  text-align: right;
-}
-
-.forgot-password {
-  color: #008080;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-.forgot-password:hover {
-  text-decoration: underline;
-}
-
-.signup-link {
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid #ddd;
-}
-
-.signup-link p {
-  color: #666;
-  font-size: 14px;
-  margin: 0;
-}
-
-.signup-link a {
-  color: #008080;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.signup-link a:hover {
-  text-decoration: underline;
-}
-
-footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: #008080;
-  text-align: center;
-  padding: 10px;
-  color: #ffffff;
-  z-index: 2;
-}
-
-footer a {
-  color: #ffffff;
-  font-weight: bold;
-  text-decoration: underline;
-}
-
-footer a:hover {
-  color: #006666;
-}
-
-@media (max-width: 768px) {
-  header {
-    padding: 10px;
-  }
-
-  .header-left img {
-    height: 40px;
-    width: 40px;
-  }
-
-  .header-left a {
-    font-size: 18px;
-  }
-
-  .main-wrapper {
-    padding-top: 100px;
-  }
-
-  .login-container {
-    width: 90%;
-    max-width: 350px;
-    padding: 30px 20px;
-  }
-
-  h2 {
-    font-size: 24px;
-  }
-
-  .form-control {
-    font-size: 14px;
-  }
-
-  .btn-primary {
-    padding: 10px;
-    font-size: 14px;
-  }
-
-  footer {
-    padding: 8px;
-    font-size: 14px;
-  }
-}
-</style>
 
 </body>
 </html>
