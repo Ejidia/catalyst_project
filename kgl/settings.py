@@ -37,6 +37,8 @@ if not DEBUG:
     if pythonanywhere_host:
         ALLOWED_HOSTS.append(pythonanywhere_host)
     ALLOWED_HOSTS.append('.pythonanywhere.com')
+    # For Fly.io
+    ALLOWED_HOSTS.append('.fly.dev')
 
 
 # Application definition
