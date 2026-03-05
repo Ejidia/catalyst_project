@@ -41,7 +41,7 @@ class Stock(models.Model):
     item_name=models.CharField(max_length=50, null = True, blank=False)
     stock_branch_name=models.CharField(max_length=50, null = True, blank=False)
     stock_type=models.CharField(max_length=50, null = True, blank=False)
-    stock_time_of_arrival=models.DateTimeField( default=datetime.now(), null=True, blank=True)
+    stock_time_of_arrival=models.DateTimeField(default=timezone.now, null=True, blank=True)
     created_at =models.DateTimeField(auto_now_add=True,null=True)
     supplier_contact=models.CharField(max_length=50, null = True, blank=False)
     stock_source = models.CharField(max_length=50, null = True, blank=False)
@@ -66,7 +66,7 @@ class Sales(models.Model):
     amount_received = models.IntegerField(default=10, null=True, blank=False)
     issued_to = models.CharField(max_length=50, null=True, blank=False)
     unit_price = models.IntegerField(default=10, null=True, blank=False)
-    date_of_sales = models.DateTimeField(default=datetime.now())
+    date_of_sales = models.DateTimeField(default=timezone.now)
 
 
 #defining a method
