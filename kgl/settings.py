@@ -28,7 +28,15 @@ DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 if not DEBUG:
-    ALLOWED_HOSTS.append(os.environ.get('RENDER_EXTERNAL_HOSTNAME', ''))
+    # For Render
+    render_host = os.environ.get('RENDER_EXTERNAL_HOSTNAME', '')
+    if render_host:
+        ALLOWED_HOSTS.append(render_host)
+    # For PythonAnywhere
+    pythonanywhere_host = os.environ.get('PYTHONANYWHERE_DOMAIN', '')
+    if pythonanywhere_host:
+        ALLOWED_HOSTS.append(pythonanywhere_host)
+    ALLOWED_HOSTS.append('.pythonanywhere.com')
 
 
 # Application definition
