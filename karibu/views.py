@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.urls import reverse
@@ -232,24 +233,23 @@ def signup(request):
 @csrf_exempt
 def Login(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username')
+        password = request.POST.get('password')
 
         user = authenticate(request, username=username, password=password)
 
-        if user is not None and user.is_administrator:
+        if user is not None:
             login(request, user)
-            return redirect('/owner_dashboard')
-
-        if user is not None and user.is_manager:
-            login(request, user)
-            return redirect('/manager_dashboard')
-
-        if user is not None and user.is_salesagent:
-            login(request, user)
-            return redirect('/salesagent_dashboard')
-
-        print("Sorry!, something went wrong")
+            if user.is_administrator:
+                return redirect('/owner_dashboard')
+            elif user.is_manager:
+                return redirect('/manager_dashboard')
+            elif user.is_salesagent:
+                return redirect('/salesagent_dashboard')
+            else:
+                return redirect('/home')
+        else:
+            messages.error(request, 'Invalid username or password')
 
     form = AuthenticationForm()
     return render(request, 'ebook/login.html', {"form": form})
