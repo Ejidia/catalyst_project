@@ -142,8 +142,19 @@ LOGOUT_REDIRECT_URL = '/'
 
 AUTH_USER_MODEL ='karibu.userprofile'
 
-# Email settings for password reset (console backend for development)
+# Email settings
+# For development: emails print to console
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 1025
+
+# For production with Gmail (uncomment and configure):
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'your-email@gmail.com'
+# EMAIL_HOST_PASSWORD = 'your-app-password'  # Use App Password, not regular password
+# DEFAULT_FROM_EMAIL = 'your-email@gmail.com'
+
+# For production with other services:
+# SendGrid, Mailgun, AWS SES, etc. - configure accordingly
 DEFAULT_FROM_EMAIL = 'noreply@karibugroceries.com'
