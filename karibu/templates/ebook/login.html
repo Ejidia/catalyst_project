@@ -1,27 +1,52 @@
-
-{% load static %}
-{% load crispy_forms_tags %}
-
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Karibu Groceries</title>
+  {% load static %}
+  {% load crispy_forms_tags %}
+</head>
+<body>
 
 <header>
   <div class="header-left">
     <a href="/">
-      <img src="{% static 'ebook/images/be.png' %}" alt="Logo">
+      <img src="{% static 'ebook/images/be.png' %}" alt="Karibu Groceries Logo">
     </a>
     <a href="/"><span>Karibu Groceries</span></a>
   </div>
 </header>
 
 <div class="main-wrapper">
-  <h2>Login</h2>
-  <form method="POST" class="login-form">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <div class="button-container">
-      <button type="submit" class="btn btn-primary">Login</button>
+  <div class="login-container">
+    <h2>Welcome Back</h2>
+    <p class="subtitle">Please login to your account</p>
+    
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+    
+    <form method="POST" class="login-form">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <div class="button-container">
+        <button type="submit" class="btn btn-primary">Login</button>
+      </div>
+    </form>
+    
+    <div class="form-links">
+      <a href="#" class="forgot-password">Forgot Password?</a>
     </div>
-  </form>
+    
+    <div class="signup-link">
+      <p>Don't have an account? <a href="#">Sign Up</a></p>
+    </div>
+  </div>
 </div>
 
 <footer>
@@ -30,13 +55,13 @@
 </footer>
 
 <style>
-  body {
-  font-family: Arial, 'Raleway', 'Montserrat', sans-serif; /* Matching inventory and base */
-  background-color: #f0f7f8; /* Soft light blue, matching inventory body */
+body {
+  font-family: Arial, 'Raleway', 'Montserrat', sans-serif;
+  background-color: #f0f7f8;
   margin: 0;
   padding: 0;
-  min-height: 100vh; /* Matching original body */
-  padding-bottom: 60px; /* Matching original body */
+  min-height: 100vh;
+  padding-bottom: 60px;
   position: relative;
 }
 
@@ -47,20 +72,20 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.2); /* Subtle overlay for readability */
+  background: rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 
 header {
-  background-color: #008080; /* Teal, matching navbar and landing footer */
+  background-color: #008080;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px; /* Matching original header */
+  padding: 16px;
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 999; /* Matching original header */
+  z-index: 999;
 }
 
 .header-left {
@@ -69,125 +94,173 @@ header {
 }
 
 .header-left img {
-  height: 50px; /* Matching original logo */
+  height: 50px;
   width: 50px;
-  border-radius: 10px; /* Adjusted for consistency with navbar logo */
-  border: 1px solid #008080; /* Teal border for cohesion */
-  margin-right: 10px; /* Matching original logo */
+  border-radius: 10px;
+  border: 1px solid #008080;
+  margin-right: 10px;
 }
 
 .header-left a {
   text-decoration: none;
-  color: #ffffff; /* White, matching navbar nav-link */
+  color: #ffffff;
   font-size: 22px;
   font-weight: bold;
 }
 
 .header-left a:hover {
-  color: #006666; /* Darker teal, matching nav-link hover */
+  color: #006666;
 }
 
 .main-wrapper {
-  padding-top: 120px; /* Matching original main-wrapper */
-  text-align: center;
+  padding-top: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
-  z-index: 2; /* Above overlay */
+  z-index: 2;
+}
+
+.login-container {
+  background: #ffffff;
+  border: 3px solid #008080;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  padding: 40px;
+  text-align: center;
 }
 
 h2 {
-  font-size: 26px;
-  color: #008080; /* Teal, matching table-header and other headings */
-  margin-bottom: 25px; /* Matching original h2 */
+  font-size: 28px;
+  color: #008080;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #666;
+  margin-bottom: 25px;
+  font-size: 14px;
+}
+
+.alert {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  text-align: left;
+}
+
+.alert-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
 }
 
 .login-form {
-  background: #ffffff; /* White, matching form-container */
-  border: 3px solid #008080; /* Teal border, fixing original */
-  border-radius: 10px; /* Matching original form */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Matching original shadow */
-  width: 360px; /* Matching original form */
-  margin: 0 auto;
-  padding: 30px; /* Matching original form */
+  text-align: left;
 }
 
 .form-group {
-  margin-bottom: 15px; /* Spacing for crispy forms */
+  margin-bottom: 15px;
 }
 
 .form-group label {
-  color: #008080; /* Teal, matching edit-form labels */
+  color: #008080;
   font-weight: bold;
 }
 
 .form-control {
-  border: 1px solid #bbb; /* Matching filter-container inputs */
-  border-radius: 5px; /* Matching original form-control */
-  padding: 10px; /* Matching original form-control */
-  font-size: 16px; /* Matching original form-control */
+  border: 1px solid #bbb;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
   width: 100%;
-  background-color: #ffffff; /* White background for inputs */
+  background-color: #ffffff;
 }
 
 .button-container {
-  margin-top: 20px; /* Matching original button-container */
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
+  margin-top: 20px;
 }
 
-.btn-submit {
-  background-color: #008080; /* Teal, matching btn-save */
-  color: #ffffff; /* White text */
-  padding: 10px 25px; /* Matching original btn-primary */
-  font-size: 16px; /* Matching original btn-primary */
-  border-radius: 5px; /* Matching original btn-primary */
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  flex: 1;
-}
-
-.btn-submit:hover {
-  background-color: #006666; /* Darker teal, matching button hovers */
-}
-
-.btn-cancel {
-  background-color: #ced5d7; /* Gray, matching edit-form btn-cancel */
-  color: #ffffff; /* White text */
-  padding: 10px 25px; /* Matching btn-submit */
+.btn-primary {
+  background-color: #008080;
+  color: #ffffff;
+  padding: 12px;
   font-size: 16px;
   border-radius: 5px;
   border: none;
-  text-decoration: none;
+  cursor: pointer;
   transition: background-color 0.3s ease;
-  flex: 1;
-  text-align: center;
+  width: 100%;
+  font-weight: bold;
 }
 
-.btn-cancel:hover {
-  background-color: #b0b7b9; /* Darker gray, matching btn-cancel hover */
-  color: #ffffff;
+.btn-primary:hover {
+  background-color: #006666;
+}
+
+.form-links {
+  margin-top: 15px;
+  text-align: right;
+}
+
+.forgot-password {
+  color: #008080;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.signup-link {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #ddd;
+}
+
+.signup-link p {
+  color: #666;
+  font-size: 14px;
+  margin: 0;
+}
+
+.signup-link a {
+  color: #008080;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.signup-link a:hover {
+  text-decoration: underline;
 }
 
 footer {
   position: fixed;
   bottom: 0;
   width: 100%;
-  background-color: #008080; /* Teal, matching base footer and navbar */
+  background-color: #008080;
   text-align: center;
-  padding: 10px; /* Matching original footer */
-  color: #ffffff; /* White text, matching base footer */
-  z-index: 2; /* Above overlay */
+  padding: 10px;
+  color: #ffffff;
+  z-index: 2;
 }
 
 footer a {
-  color: #ffffff; /* White, matching footer text */
+  color: #ffffff;
   font-weight: bold;
   text-decoration: underline;
 }
 
 footer a:hover {
-  color: #006666; /* Darker teal, matching nav-link hover */
+  color: #006666;
 }
 
 @media (max-width: 768px) {
@@ -208,28 +281,22 @@ footer a:hover {
     padding-top: 100px;
   }
 
-  .login-form {
-    width: 100%;
-    max-width: 320px;
-    padding: 20px;
+  .login-container {
+    width: 90%;
+    max-width: 350px;
+    padding: 30px 20px;
   }
 
   h2 {
-    font-size: 22px;
+    font-size: 24px;
   }
 
   .form-control {
     font-size: 14px;
   }
 
-  .button-container {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .btn-submit,
-  .btn-cancel {
-    padding: 8px 20px;
+  .btn-primary {
+    padding: 10px;
     font-size: 14px;
   }
 
@@ -240,4 +307,5 @@ footer a:hover {
 }
 </style>
 
-{% endblock %}
+</body>
+</html>
