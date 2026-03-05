@@ -5,230 +5,186 @@
 <style>
   body {
     background-color: #f0f7f8;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: Arial, sans-serif;
   }
 
-  .container {
-    background-color: #ffffff;
-    font-weight: bolder;
-    border-radius: 20px;
-    padding: 30px;
-    max-width: 1000px;
-    margin: auto;
-    box-shadow: 0 0 18px rgba(0, 128, 128, 0.2);
-    border: 2px solid teal;
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
   }
 
-  .card {
-    background-color: #e0f4f4;
-    border-radius: 12px;
-    border: 2px solid teal;
-    margin-bottom: 25px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  }
-
-  .card-header {
-    background-color: #dff2f1;
-    padding: 20px;
-    border-bottom: 1px solid #b2d8d8;
-    text-align: center;
-  }
-
-  .card-header h5,
-  .card-header h6 {
-    color: teal;
+  .page-header h1 {
+    font-size: 2rem;
+    color: #008080;
     font-weight: bold;
-    margin-bottom: 5px;
   }
 
-  .card-header img {
+  .btn-back {
+    background-color: #008080;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+
+  .btn-back:hover {
+    background-color: #006666;
+    color: white;
+    text-decoration: none;
+  }
+
+  .receipt-container {
+    background: white;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 5px 20px rgba(0, 128, 128, 0.1);
+    border: 2px solid #008080;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .receipt-header {
+    text-align: center;
+    padding-bottom: 30px;
+    border-bottom: 2px solid #e0f4f4;
+    margin-bottom: 30px;
+  }
+
+  .receipt-header img {
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
-    height: 90px;
+    margin-bottom: 15px;
+  }
+
+  .receipt-header h2 {
+    color: #008080;
+    font-size: 1.5rem;
     margin-bottom: 10px;
   }
 
-  h1, h2.lead {
-    color: teal;
-    font-weight: bold;
-    text-align: center;
+  .receipt-header p {
+    color: #666;
+    margin: 5px 0;
+    font-size: 0.95rem;
   }
 
-  p {
+  .customer-info {
+    background: #f0f7f8;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+  }
+
+  .customer-info h3 {
+    color: #008080;
     font-size: 1.2rem;
-    font-weight: bold;
-    text-align: center;
-    color: teal;
+    margin-bottom: 10px;
   }
 
-  table {
+  .receipt-table {
     width: 100%;
     border-collapse: collapse;
-    background-color: #d1f7eb;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
   }
 
-  thead {
-    background-color: #53c5b2;
+  .receipt-table th {
+    background-color: #008080;
     color: white;
+    padding: 12px;
+    text-align: left;
     font-weight: bold;
-    font-size: 1.1rem;
   }
 
-  th, td {
-    padding: 1rem;
-    border: 2px solid teal;
+  .receipt-table td {
+    padding: 12px;
+    border-bottom: 1px solid #e0f4f4;
+    color: #333;
+  }
+
+  .receipt-footer {
     text-align: center;
-    color: #004d4d;
-  }
-
-  .btn-primary {
-    background-color: #0fb152;
-    border: none;
-    color: white;
-    font-weight: bold;
-    transition: 0.3s ease;
-  }
-
-  .btn-primary:hover {
-    background-color: #97e7d6;
-    color: teal;
-  }
-
-  .btn-link {
-    text-decoration: none;
-    color: white;
+    padding-top: 20px;
+    border-top: 2px solid #e0f4f4;
+    color: #008080;
     font-weight: bold;
   }
 
-  .btn-link:hover {
-    color: teal;
-  }
-
-  .print {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-  }
-
-  .print button {
-    padding: 12px 24px;
-    border-radius: 8px;
-    background-color: #ced5d7;
-    color: teal;
-    border: none;
-    font-weight: bold;
-    transition: 0.3s ease;
-  }
-
-  .print button:hover {
-    background-color: #b0e0ee;
+  .btn-print {
+    background-color: #008080;
     color: white;
-  }
-
-  /* Back Button Styling */
-  .back-btn {
-    width: 100px;
-    height: 45px;
-    background-color: #0fb152;
-    color: white;
-    font-weight: bold;
+    padding: 12px 30px;
     border: none;
     border-radius: 8px;
-    margin: 10px auto 20px 10px;
-    transition: 0.3s ease;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
   }
 
-  .back-btn:hover {
-    background-color: #97e7d6;
-    color: teal;
-  }
-
-  .back-btn a {
+  .btn-print:hover {
+    background-color: #006666;
     color: white;
-    text-decoration: none;
-    display: block;
-    width: 100%;
-    height: 100%;
-    line-height: 45px;
   }
 
-  .back-btn a:hover {
-    color: teal;
-    text-decoration: none;
+  @media print {
+    .page-header, .btn-print, .btn-back { display: none; }
   }
 </style>
 
-
-<!-- Back Button -->
-<button type="submit" class="btn btn-primary" style="width: 100px; height: 50px;">
-  <a href="/receipt" style="text-decoration:none; color:white; font-weight:bolder;"></a>
-</button>
-
-<!-- Main Content -->
 <div class="container">
-  <div class="card mb-4">
-    <div class="card-header text-center">
-      <img src="{% static 'ebook/images/be.png' %}" alt="Logo" style="height: 90px; border-radius: 40px;">
-      <h5>Karibu Grocery Limited</h5>
-      <h5>Contact: 0754569816, 0776553855</h5>
-      <h5>Address: 251 Maganjo Street, Kampala</h5>
-      <h5>www.karibu.groceries.ltd</h5>
-      <h6>Date: {{ receipt.date }} &nbsp;&nbsp;</h6>
-    </div>
+  <div class="page-header">
+    <h1>Receipt Details</h1>
+    <a href="{% url 'receipt' %}" class="btn-back">Back to Receipts</a>
   </div>
 
-  <div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header">
-            <h1 class="text-center">ORDER SUMMARY</h1><br>
-            <h2 class="lead">Customer Name: {{receipt.issued_to | title}}</h2>
-          </div>
-          <div class="card-block">
-            <div class="table-responsive">
-              <table class="table table-sm">
-                <thead>
-                  <tr>
-                    <td><strong>Item Name</strong></td>
-                    <td class="text-xs-center"><strong>Quantity(Kgs)</strong></td>
-                    <td class="text-xs-right"><strong>Total Bill(Ugx)</strong></td>
-                    <td class="text-xs-right"><strong>Amount Paid(Ugx)</strong></td>
-                    <td class="text-xs-right">
-                      <strong>Balance(UgX)</strong>
-                    </td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>{{receipt.item | title}}</td>
-                    <td class="text-xs-center">{{receipt.quantity}}</td>
-                    <td class="text-xs-center">{{receipt.get_total | title}}</td>
-                    <td class="text-xs-right">{{receipt.amount_received}}</td>
-                    <td class="text-xs-right">{{receipt.get_change}}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div class="receipt-container">
+    <div class="receipt-header">
+      <img src="{% static 'ebook/images/be.png' %}" alt="Karibu Groceries">
+      <h2>Karibu Grocery Limited</h2>
+      <p>Contact: 0754569816, 0776553855</p>
+      <p>Address: 251 Maganjo Street, Kampala</p>
+      <p>www.karibu.groceries.ltd</p>
+      <p><strong>Date:</strong> {{ receipt.date_of_sales|date:"d M Y, H:i" }}</p>
     </div>
-  </div>
 
-  <hr>
-  <p>Thank you for shopping with us, dear customers!</p>
+    <div class="customer-info">
+      <h3>Customer: {{ receipt.issued_to|title }}</h3>
+    </div>
 
-  <!-- Print Button -->
-  <div class="print">
-      <button id="print-button" class="btn btn-primary" onclick="printReceipt()">Print Receipt</button>
+    <table class="receipt-table">
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Quantity (Kgs)</th>
+          <th>Total Bill (UGX)</th>
+          <th>Amount Paid (UGX)</th>
+          <th>Balance (UGX)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ receipt.item|title }}</td>
+          <td>{{ receipt.quantity }}</td>
+          <td>{{ receipt.get_total }}</td>
+          <td>{{ receipt.amount_received }}</td>
+          <td>{{ receipt.get_change }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="receipt-footer">
+      <p>Thank you for shopping with us!</p>
+    </div>
+
+    <div style="text-align: center;">
+      <button class="btn-print" onclick="window.print()">Print Receipt</button>
+    </div>
   </div>
 </div>
-
-<script>
-  function printReceipt() {
-    window.print();
-  }
-</script>
 
 {% endblock %}
