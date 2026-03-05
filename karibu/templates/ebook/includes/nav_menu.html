@@ -69,6 +69,9 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'owner_dashboard' %}" style="color: white;">DASHBOARD</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'signup' %}" style="color: white;">ADD USER</a>
+            </li>
             {% elif user.is_manager %}
             <li class="nav-item">
               <a class="nav-link" href="{% url 'manager_dashboard' %}" style="color: white;">DASHBOARD</a>

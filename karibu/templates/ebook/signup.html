@@ -1,82 +1,112 @@
+{% extends 'ebook/base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Page</title>
 
-    <!-- Bootstrap CSS (Make sure it's loaded in your base template or here) -->
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <style>
-        body {
-            background-color: #f4f6f9;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+{% block content %}
+<style>
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
 
-        .auth-links {
-            background-color: #003366;
-            padding: 15px;
-            text-align: right;
-        }
+  .page-header h1 {
+    font-size: 2rem;
+    color: #008080;
+    font-weight: bold;
+  }
 
-        .auth-links input[type="button"] {
-            background-color: #32cd32;
-            border: none;
-            color: #fff;
-            padding: 8px 16px;
-            border-radius: 5px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
+  .btn-back {
+    background-color: #008080;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
 
-        .auth-links input[type="button"]:hover {
-            background-color: #28a745;
-        }
+  .btn-back:hover {
+    background-color: #006666;
+    color: white;
+    text-decoration: none;
+  }
 
-        .form-container {
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 30px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-        }
+  .form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 128, 128, 0.1);
+    border: 2px solid #008080;
+  }
 
-        .btn-secondary {
-            background-color: #0074d9;
-            border: none;
-            font-weight: 600;
-        }
+  .form-container h2 {
+    color: #008080;
+    text-align: center;
+    margin-bottom: 30px;
+  }
 
-        .btn-secondary:hover {
-            background-color: #005fa3;
-        }
-    </style>
-</head>
-<body>
+  .form-group label {
+    color: #008080;
+    font-weight: bold;
+  }
 
-    <!-- Auth Links -->
-    <div class="auth-links px-3">
-        {% if request.user.is_authenticated %}
-            <a href="{% url 'logout' %}"><input type="button" value="Logout"></a>
-        {% else %}
-            <a href="{% url 'login' %}"><input type="button" value="Login"></a>
-        {% endif %}
-    </div>
+  .btn-submit {
+    background-color: #008080;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
 
-    <!-- Main Content -->
-    <div class="form-container">
-        {% block content %}
-        <form action="" method="POST">
-            {% csrf_token %}
-            {{ form|crispy }}
-            <input type="submit" class="btn btn-secondary mt-3" value="Submit">
-        </form>
-        {% endblock %}
-    </div>
+  .btn-submit:hover {
+    background-color: #006666;
+    color: white;
+  }
 
-</body>
-</html>
+  .alert {
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+  }
+
+  .alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+</style>
+
+<div class="container">
+  <div class="page-header">
+    <h1>Add New User</h1>
+    <a href="{% url 'owner_dashboard' %}" class="btn-back">Back to Dashboard</a>
+  </div>
+
+  <div class="form-container">
+    <h2>Create User Account</h2>
+    
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button type="submit" class="btn-submit">Create User</button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
