@@ -1,77 +1,184 @@
-{% extends 'ebook/base.html' %} 
-{% load crispy_forms_tags %} 
+{% extends 'ebook/base.html' %}
+{% load crispy_forms_tags %}
 {% load static %}
 
 {% block content %}
-<br><br>
-
 <style>
   body {
-    background-color: #ced5d7;
+    background-color: #ffffff;
   }
 
-  .container {
+  .page-header {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    margin-bottom: 30px;
+    max-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  form {
-    border-radius: 20px;
-    border: 2px solid teal;
-    padding: 30px;
-    background-color: #f0f3f4;
-    width: 450px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-
-  h1 {
-    text-align: center;
+  .page-header h1 {
+    font-size: 2rem;
+    color: #008080;
     font-weight: bold;
-    color: teal;
+  }
+
+  .btn-back {
+    background-color: #008080;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+  }
+
+  .btn-back:hover {
+    background-color: #006666;
+    color: white;
+    text-decoration: none;
+  }
+
+  .form-card {
+    max-width: 780px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 128, 128, 0.1);
+    border: 2px solid #008080;
+  }
+
+  .card-header {
+    background: linear-gradient(135deg, #008080 0%, #006666 100%);
+    padding: 30px 40px;
+    color: white;
+  }
+
+  .card-header h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .card-header p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+
+  .card-body {
+    padding: 40px;
+  }
+
+  .alert {
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border-left: 4px solid;
+  }
+
+  .alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+  }
+
+  .form-group {
     margin-bottom: 20px;
   }
 
-  .btn-primary {
-    background-color: teal;
-    border: none;
-    font-weight: bold;
-    padding: 10px 20px;
-    color: white;
-    margin-top: 10px;
-    margin-right: 10px;
+  .form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #008080;
+    margin-bottom: 8px;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #bbb;
     border-radius: 8px;
-    transition: background-color 0.3s ease;
+    font-size: 1rem;
+    transition: all 0.3s ease;
   }
 
-  .btn-primary:hover {
-    background-color: #128c7e;
+  .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: #008080;
+    box-shadow: 0 0 0 3px rgba(0, 128, 128, 0.1);
   }
 
-  .btn-danger {
-    background-color: #e57373;
-    border: none;
-    font-weight: bold;
-    padding: 10px 20px;
+  .btn-submit {
+    width: 100%;
+    background: linear-gradient(135deg, #008080, #006666);
     color: white;
-    margin-top: 10px;
+    padding: 14px;
+    border: none;
     border-radius: 8px;
-    transition: background-color 0.3s ease;
+    font-weight: bold;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
   }
 
-  .btn-danger:hover {
-    background-color: #c62828;
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 128, 128, 0.3);
+  }
+
+  @media (max-width: 768px) {
+    .card-body {
+      padding: 24px;
+    }
   }
 </style>
 
 <div class="container">
-  <form method="POST" action="">
-    <h1>RECORD SALES</h1>
-    {% csrf_token %}
-    {{ sales_form|crispy }}
+  <div class="page-header">
+    <h1>Record Sales</h1>
+    <a href="{% url 'all_sales' %}" class="btn-back">Back to Sales</a>
+  </div>
 
-    <input type="submit" class="btn btn-primary" value="Save">
-    <button type="reset" class="btn btn-danger">Cancel</button>
-  </form>
+  <div class="form-card">
+    <div class="card-header">
+      <h2>Record New Sale</h2>
+      <p>Fill in the sales details below</p>
+    </div>
+
+    <div class="card-body">
+      {% if form.non_field_errors %}
+        <div class="alert alert-error">
+          <strong>Error:</strong>
+          {% for error in form.non_field_errors %}
+            <div>{{ error }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <form method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+              <ul class="errorlist">
+                {% for error in field.errors %}
+                  <li style="color: #dc3545; font-size: 0.85rem; margin-top: 5px;">{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        {% endfor %}
+        <button type="submit" class="btn-submit">Record Sale</button>
+      </form>
+    </div>
+  </div>
 </div>
+
 {% endblock %}
