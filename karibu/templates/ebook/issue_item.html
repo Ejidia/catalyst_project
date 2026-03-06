@@ -5,115 +5,158 @@
 {% block content %}
 <style>
   body {
-    background-color: #d6ecfa; /* light blue background */
+    background-color: #ffffff;
   }
 
-  .nav-buttons {
+  .page-header {
     display: flex;
     justify-content: space-between;
-    margin: 20px auto;
-    max-width: 450px;
-    padding: 0 10px;
+    align-items: center;
+    margin-bottom: 30px;
+    max-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  .btn-nav {
-    display: inline-block;
-    background-color: #0288d1;
-    color: white;
-    padding: 10px 24px;
+  .page-header h1 {
+    font-size: 2rem;
+    color: #008080;
     font-weight: bold;
+  }
+
+  .btn-back {
+    background-color: #008080;
+    color: white;
+    padding: 10px 20px;
     border-radius: 8px;
     text-decoration: none;
-    transition: background-color 0.3s ease;
-  }
-
-  .btn-nav:hover {
-    background-color: #01579b;
-  }
-
-  .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-  }
-
-  form {
-    background-color: #ffffff;
-    border: 2px solid #90caf9; /* soft border blue */
-    border-radius: 20px;
-    padding: 30px;
-    width: 100%;
-    max-width: 450px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     font-weight: bold;
-    color: #0d47a1;
+    transition: all 0.3s ease;
   }
 
-  h1.text-center {
-    text-align: center;
-    font-size: 1.8rem;
-    color: #0d47a1;
+  .btn-back:hover {
+    background-color: #006666;
+    color: white;
+    text-decoration: none;
+  }
+
+  .form-card {
+    max-width: 780px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 128, 128, 0.1);
+    border: 2px solid #008080;
+  }
+
+  .card-header {
+    background: linear-gradient(135deg, #008080 0%, #006666 100%);
+    padding: 30px 40px;
+    color: white;
+  }
+
+  .card-header h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .card-header p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+  }
+
+  .card-body {
+    padding: 40px;
+  }
+
+  .form-group {
     margin-bottom: 20px;
   }
 
-  .btn {
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    font-weight: bold;
+  .form-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #008080;
+    margin-bottom: 8px;
+  }
+
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #bbb;
     border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: #008080;
+    box-shadow: 0 0 0 3px rgba(0, 128, 128, 0.1);
+  }
+
+  .btn-submit {
+    width: 100%;
+    background: linear-gradient(135deg, #008080, #006666);
+    color: white;
+    padding: 14px;
     border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.05rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
   }
 
-  .btn-primary {
-    background-color: #0288d1;
-    color: white;
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 128, 128, 0.3);
   }
 
-  .btn-primary:hover {
-    background-color: #01579b;
-  }
-
-  .btn-danger {
-    background-color: #ef5350;
-    color: white;
-  }
-
-  .btn-danger:hover {
-    background-color: #c62828;
-  }
-
-  @media (max-width: 576px) {
-    .container {
-      padding: 1rem;
-    }
-
-    form {
-      padding: 20px;
-    }
-
-    .nav-buttons {
-      flex-direction: column;
-      gap: 10px;
-      align-items: stretch;
-    }
-
-    .btn-nav {
-      text-align: center;
+  @media (max-width: 768px) {
+    .card-body {
+      padding: 24px;
     }
   }
 </style>
 
-
-<!-- Sales Form -->
 <div class="container">
-  <form method="POST" action="">
-    <h1 class="text-center">SALES FORM</h1><br />
-    {% csrf_token %}
-    {{ sales_form|crispy }}
+  <div class="page-header">
+    <h1>Issue Item</h1>
+    <a href="{% url 'home' %}" class="btn-back">Back to Home</a>
+  </div>
 
-    <button type="reset" class="btn btn-danger">Cancel</button>
-    <input type="submit" class="btn btn-primary" value="Submit" style="float: right;">
-  </form>
+  <div class="form-card">
+    <div class="card-header">
+      <h2>Record Item Issue</h2>
+      <p>Fill in the sales details below</p>
+    </div>
+
+    <div class="card-body">
+      <form method="POST">
+        {% csrf_token %}
+        {% for field in sales_form %}
+          <div class="form-group">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+              <ul class="errorlist">
+                {% for error in field.errors %}
+                  <li style="color: #dc3545; font-size: 0.85rem; margin-top: 5px;">{{ error }}</li>
+                {% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        {% endfor %}
+        <button type="submit" class="btn-submit">Submit</button>
+      </form>
+    </div>
+  </div>
 </div>
+
 {% endblock %}
