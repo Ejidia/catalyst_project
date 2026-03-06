@@ -11,11 +11,10 @@ class Userprofile(AbstractUser):
     is_salesagent = models.BooleanField(default=False)
     is_manager = models.BooleanField(default=False)
     is_administrator = models.BooleanField(default=False)
-    username = models.CharField(max_length=150, unique=True)
-    user_email = models.EmailField(max_length= 25, unique=False)
-    user_address = models.CharField(max_length=50, blank=False)
-    gender = models.CharField(max_length=20, blank=False)
-    phonenumber = models.CharField(max_length=20,blank=False)
+    user_email = models.EmailField(unique=False)
+    user_address = models.CharField(max_length=50, blank=True)
+    gender = models.CharField(max_length=20, blank=True)
+    phonenumber = models.CharField(max_length=20, blank=True)
 
 
     def __str__(self):
