@@ -31,12 +31,13 @@ class AddForm(ModelForm):
 class UserCreation(UserCreationForm):
     class Meta:
         model = Userprofile
-        fields = '__all__'
+        fields = ['username', 'user_email', 'phonenumber', 'gender', 'user_address', 'is_manager', 'is_salesagent']
+    
     def save(self, commit=True):
-        user=super( UserCreation,self).save(commit=False)
+        user = super(UserCreation, self).save(commit=False)
         if commit:
-            user.is_active =True
-            user.is_staff =True
+            user.is_active = True
+            user.is_staff = True
             user.save()
             return user
         
