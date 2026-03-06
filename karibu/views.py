@@ -58,11 +58,6 @@ def delete_detail(request, product_id):
     if not request.user.is_manager:
         return HttpResponseForbidden("You are not allowed to delete products.")
     
-    # rest of the code...
-
-    """if getattr(request.user, 'is_administrator', False):
-        return HttpResponseForbidden("Admins are not allowed to delete products.")"""
-    
     product = get_object_or_404(Stock, id=product_id)
     product.delete()
     return HttpResponseRedirect(reverse('home'))
@@ -71,12 +66,6 @@ def delete_detail(request, product_id):
 def edit_detail(request, product_id):
     if not request.user.is_manager:
         return HttpResponseForbidden("You are not allowed to edit products.")
-    
-    # rest of the code...
-
-    """if getattr(request.user, 'is_administrator', False):
-        return HttpResponseForbidden("Admins are not allowed to edit products.")"""
-    
     
     product = get_object_or_404(Stock, id=product_id)
     if request.method == "POST":
@@ -90,24 +79,22 @@ def edit_detail(request, product_id):
     return render(request, "ebook/edit_product.html", {'form': form, 'product': product})
 
 
-"""@login_required
-def add_product(request):
-    if getattr(request.user, 'is_administrator', False):
-        return HttpResponseForbidden("Admins are not allowed to add products.")
-"""
 @login_required
 def add_product(request):
-    if not request.user.is_manager :
+    if not request.user.is_manager:
         return HttpResponseForbidden("You are not allowed to add products.")
-    
-    # rest of the code...
-
     
     if request.method == 'POST':
         form = StockForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('home')
+            try:
+                form.save()
+                messages.success(request, 'Product added successfully!')
+                return redirect('home')
+            except Exception as e:
+                messages.error(request, f'Error saving product: {str(e)}')
+        else:
+            messages.error(request, 'Please correct the errors below.')
     else:
         form = StockForm()
     return render(request, 'ebook/add_product.html', {'form': form})
@@ -260,17 +247,16 @@ def owner_dashboard(request):
     receipts = Receipt.objects.all().order_by('-date')
     total_sales = receipts.aggregate(total=Sum('amount_received'))['total'] or 0
     total_products = Stock.objects.count()
-    total_stock_value = Stock.objects.aggregate(total=Sum(models.F('unit_price') * models.F('total_quantity')))['total'] or 0
+    total_stock_value = Stock.objects.aggregate(total=Sum(F('unit_price') * F('total_quantity')))['total'] or 0
     total_transactions = Sales.objects.count()
     recent_sales = Sales.objects.all().order_by('-date_of_sales')[:5]
     total_deferred = Deffered_payments.objects.aggregate(total=Sum('balance'))['total'] or 0
     total_managers = Userprofile.objects.filter(is_manager=True).count()
     total_salesagents = Userprofile.objects.filter(is_salesagent=True).count()
 
-    # Data for charts
     sales_data = []
     labels = []
-    for i in range(7):  # Last 7 days
+    for i in range(7):
         date = timezone.now() - timezone.timedelta(days=i)
         day_sales = receipts.filter(date__date=date.date()).aggregate(total=Sum('amount_received'))['total'] or 0
         sales_data.append(float(day_sales))
@@ -348,5 +334,4 @@ def profile_redirect(request):
         return redirect('salesagent_dashboard')
     else:
         return redirect('home')
-
 
